@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Requests</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .accept-button {
+            padding: 5px 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .accept-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<h1>Payment Requests</h1>
+<table id="paymentTable">
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>Amount</th>
+        <th>Request</th>
+    </tr>
+    </thead>
+    <tbody id="paymentTableBody"></tbody>
+</table>
+
+<script>
+    // Sample data (replace with actual data source)
+    const paymentRequests = [
+        { username: "John Doe", amount: "$100" },
+        { username: "Jane Smith", amount: "$50" },
+        // Add more payment request objects as needed
+    ];
+
+    // Function to dynamically populate the table with payment requests
+    function populateTable() {
+        const tableBody = document.getElementById("paymentTableBody");
+
+        paymentRequests.forEach(request => {
+            const row = document.createElement("tr");
+
+            const usernameCell = document.createElement("td");
+            usernameCell.textContent = request.username;
+
+            const amountCell = document.createElement("td");
+            amountCell.textContent = request.amount;
+
+            const requestCell = document.createElement("td");
+            const acceptButton = document.createElement("button");
+            acceptButton.textContent = "Accept";
+            acceptButton.classList.add("accept-button");
+            acceptButton.addEventListener("click", () => acceptRequest(request.username, acceptButton));
+            requestCell.appendChild(acceptButton);
+
+            row.appendChild(usernameCell);
+            row.appendChild(amountCell);
+            row.appendChild(requestCell);
+
+            tableBody.appendChild(row);
+        });
+    }
+
+    // Function to handle accepting a payment request
+    function acceptRequest(username, button) {
+        // Add logic here to handle accepting the payment request
+        alert(`Payment request from ${username} accepted!`);
+        button.textContent = "Accepted";
+        button.disabled = true; // Optionally disable the button after accepting
+    }
+
+    // Populate the table when the page loads
+    window.onload = populateTable;
+</script>
+</body>
+</html>

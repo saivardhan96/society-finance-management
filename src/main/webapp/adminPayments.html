@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="adminactivity.css">
+    <title>Payments</title>
+</head>
+<body>
+<div class="heading">
+    <h1>Krishna Meadows</h1>
+</div>
+<div class="buttons">
+    <button class="neumorphic-button" type="button" onclick="paymentRequests()"><i class="fas fa-money-check-alt"></i>
+        <span>Payment Requests</span></button>
+    <button class="neumorphic-button" type="button" onclick="displayPage()"><i class="fas fa-coins"></i>
+        <span>Set Payments</span></button>
+</div>
+<script>
+    function paymentRequests(){
+        window.location.href = 'adminpayreq.html';
+    }
+    function displayPage(){
+        alert("clicked");
+        // window.location.href='setPayments.jsp';
+    }
+</script>
+</body>
+
+</html>
+
