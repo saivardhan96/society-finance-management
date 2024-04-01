@@ -31,14 +31,13 @@
         <br>
         <button type="submit">Login</button><br>
         <%
-            if(request.getAttribute("msg")=="Wrong"){
+            String msg="";
+            if(request.getAttribute("msg")=="Wrong") msg = "Wrong Credentials";
         %>
         <div>
-            <p>Wrong Credentials.</p>
+            <p>${msg}</p>
         </div>
-        <%
-            }
-        %>
+
         <div><a href="AdminLogin.html">Admin Login?</a></div>
     </form>
 </div>
