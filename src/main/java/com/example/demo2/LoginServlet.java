@@ -92,7 +92,6 @@ public class LoginServlet extends HttpServlet {
                     req.setAttribute("msg","Wrong");
                     req.getRequestDispatcher("login.jsp");
                 }
-
             }
             else{
                 resp.setContentType("text/html");
