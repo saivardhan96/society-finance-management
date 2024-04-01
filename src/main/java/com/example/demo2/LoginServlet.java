@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static java.lang.System.console;
 import static java.lang.System.out;
@@ -76,16 +77,21 @@ public class LoginServlet extends HttpServlet {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sai","root","Kittu@96");
             String un = req.getParameter("username");
             String p = req.getParameter("password");
-            HttpSession session = req.getSession();
-            session.setAttribute("username",un);
             setContexts(un,con);
-            PreparedStatement ps = con.prepareStatement("select uname from logins where uname=? and password=?");
+            PreparedStatement ps = con.prepareStatement("select password from logins where uname=?");
             ps.setString(1,un);
-            ps.setString(2,p);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-
-                resp.sendRedirect("welcome.jsp");
+                String password = rs.getString(1);
+                if(Objects.equals(password, p)){
+                    HttpSession session = req.getSession();
+                    session.setAttribute("username",un);
+                    resp.sendRedirect("welcome.jsp");
+                }
+                else{
+                    req.setAttribute("msg","Wrong");
+                    req.getRequestDispatcher("login.jsp");
+                }
 
             }
             else{
