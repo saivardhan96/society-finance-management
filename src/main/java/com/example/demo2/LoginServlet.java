@@ -89,7 +89,7 @@ public class LoginServlet extends HttpServlet {
                     resp.sendRedirect("welcome.jsp");
                 }
                 else{
-                    req.setAttribute("msg","Wrong");
+                    req.setAttribute("Incorrect","incorrect Credentials.");
                     req.getRequestDispatcher("login.jsp").forward(req,resp);
                 }
             }
