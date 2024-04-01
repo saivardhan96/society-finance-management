@@ -30,6 +30,13 @@
         <input type="password" id="password" name="password" class="input" placeholder="Password" required>
         <br>
         <button type="submit">Login</button><br>
+        <%
+            if(request.getAttribute("msg")=="Wrong"){
+        %>
+        <div>Wrong Credentials.</div>
+        <%
+            }
+        %>
         <div><a href="AdminLogin.html">Admin Login?</a></div>
     </form>
 </div>

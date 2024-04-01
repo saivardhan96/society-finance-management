@@ -90,7 +90,7 @@ public class LoginServlet extends HttpServlet {
                 }
                 else{
                     req.setAttribute("msg","Wrong");
-                    req.getRequestDispatcher("login.jsp");
+                    req.getRequestDispatcher("login.jsp").forward(req,resp);
                 }
             }
             else{
