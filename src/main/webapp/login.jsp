@@ -33,7 +33,9 @@
         <%
             if(request.getAttribute("msg")=="Wrong"){
         %>
-        <div>Wrong Credentials.</div>
+        <div>
+            <p>Wrong Credentials.</p>
+        </div>
         <%
             }
         %>
