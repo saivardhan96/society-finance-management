@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.util.Objects" %><%--
   Created by IntelliJ IDEA.
   User: saiva
   Date: 28-03-2024
@@ -10,9 +10,8 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Garamond&display=swap">
-
-
     <link rel="stylesheet" href="UserLoginfin.css">
+    <title>User Login</title>
 </head>
 <body>
 <div class="heading">
@@ -30,6 +29,11 @@
         <input type="password" id="password" name="password" class="input" placeholder="Password" required>
         <br>
         <button type="submit">Login</button><br>
+        <%
+            if(request.getAttribute("msg")=="Wrong Credentials"){
+        %>
+        <h4>Incorrect credentials.Try again.</h4>
+        <%}%>
         <div><a href="AdminLogin.html">Admin Login?</a></div>
     </form>
 </div>
@@ -39,7 +43,6 @@
     response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
     response.setDateHeader("Expires", 0); // Proxies.
 %>
-
 
 </body>
 </html>

@@ -83,20 +83,20 @@ public class LoginServlet extends HttpServlet {
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 String password = rs.getString(1);
+                System.out.println("Password: "+password);
                 if(Objects.equals(password, p)){
                     HttpSession session = req.getSession();
                     session.setAttribute("username",un);
                     resp.sendRedirect("welcome.jsp");
                 }
                 else{
-                    req.setAttribute("Incorrect","incorrect Credentials.");
+                    req.setAttribute("Incorrect","Wrong Credentials");
                     req.getRequestDispatcher("login.jsp").forward(req,resp);
                 }
             }
             else{
-                resp.setContentType("text/html");
-                out.println("<font color=red size=20> Login Failed!<br>");
-                out.println("<a href=login.jsp> TRY AGAIN");
+                req.setAttribute("Incorrect","Wrong Credentials");
+                req.getRequestDispatcher("login.jsp").forward(req,resp);;
             }
 
         } catch (ClassNotFoundException e) {
