@@ -31,7 +31,7 @@
         <br>
         <button type="submit">Login</button><br>
         <%
-            if(request.getAttribute("msg")=="wrong"){
+            if(request.getAttribute("msg")=="Wrong"){
         %>
         <div>Wrong Credentials.</div>
         <%
