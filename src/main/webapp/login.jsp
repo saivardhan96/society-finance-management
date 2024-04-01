@@ -32,7 +32,7 @@
         <%
             if(request.getAttribute("msg")=="Wrong Credentials"){
         %>
-        <h4>Incorrect credentials.Try again.</h4>
+        <h4>Invalid credentials.Try again.</h4>
         <%}%>
         <div><a href="AdminLogin.html">Admin Login?</a></div>
     </form>
