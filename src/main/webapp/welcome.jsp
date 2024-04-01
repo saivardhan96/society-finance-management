@@ -16,10 +16,11 @@
 
 </head>
 <body>
+<%
+    if(session.getAttribute("username")==null) response.sendRedirect("login.jsp");
+%>
 <h3>Hey, ${userName}. Welcome to this page!!</h3>
 <jsp:include page="UserActivity.html" />
-
-
 
 </body>
 </html>

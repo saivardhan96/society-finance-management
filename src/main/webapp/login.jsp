@@ -19,7 +19,7 @@
     <h1>Krishna Meadows</h1>
 </div>
 <div class="form">
-    <form action="login-servlet" method="post" >
+    <form action="login-servlet" method="get" >
         <div>
             <h2>Login</h2>
             <label for="username">UserName:</label>

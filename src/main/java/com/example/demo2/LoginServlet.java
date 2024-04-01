@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -75,13 +76,15 @@ public class LoginServlet extends HttpServlet {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sai","root","Kittu@96");
             String un = req.getParameter("username");
             String p = req.getParameter("password");
+            HttpSession session = req.getSession();
+            session.setAttribute("username",un);
             setContexts(un,con);
             PreparedStatement ps = con.prepareStatement("select uname from logins where uname=? and password=?");
             ps.setString(1,un);
             ps.setString(2,p);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-//                req.setAttribute("userName",un);
+
                 resp.sendRedirect("welcome.jsp");
 
             }
