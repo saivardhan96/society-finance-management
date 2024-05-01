@@ -1,0 +1,49 @@
+<%@ page import="java.util.Objects" %><%--
+  Created by IntelliJ IDEA.
+  User: saiva
+  Date: 28-03-2024
+  Time: 11:21
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Garamond&display=swap">
+    <link rel="stylesheet" href="UserLoginfin.css">
+    <title>User Login</title>
+</head>
+<body>
+<div class="heading">
+    <h1>Krishna Meadows</h1>
+</div>
+<div class="form">
+    <form action="login-servlet" method="post" >
+        <div>
+            <h2>Login</h2>
+            <label for="username">UserName:</label>
+            <input type="text" id="username" name="username" class="input" placeholder="Username" required>
+        </div>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" class="input" placeholder="Password" required>
+        <br>
+        <button type="submit">Login</button><br>
+        <%
+            if(request.getAttribute("status")=="wrong"){
+        %>
+        <h4 style="color: red;margin-top: 10px">Incorrect credentials.Try again.</h4>
+        <%}%>
+        <div><a href="AdminLogin.html">Admin Login?</a></div>
+    </form>
+</div>
+
+<%--Preventing caches of the current page--%>
+<%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // for http 1.1
+    response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+    response.setDateHeader("Expires", 0); // for proxy servers
+%>>
+
+</body>
+</html>

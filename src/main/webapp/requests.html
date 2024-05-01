@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Request</title>
+    <link rel="stylesheet" href="paymentRequest.css">
+</head>
+<body>
+<h1>Payment Request</h1>
+<form action="TrailRequest-Servlet" method="post">
+    <table>
+        <tr>
+            <th></th>
+            <th>Service</th>
+            <th>Amount</th>
+        </tr>
+        <tr>
+            <td><input type="checkbox" id="maintenance" name="maintenance"> </td>
+            <td><label for="maintenance">Maintenance</label></td>
+            <td><label for="maintenance" id="amount">2000</label></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" id="water" name="due"> </td>
+            <td><label for="water">Water</label></td>
+            <td>1000</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" id="celebrations" name="due"> </td>
+            <td><label for="celebrations">Celebrations</label></td>
+            <td>1000</td>
+        </tr>
+    </table><br>
+    <input type="submit" value="send Request">
+</form>
+
+</body>
+</html>

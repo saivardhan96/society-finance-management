@@ -1,0 +1,87 @@
+/* styles.css */
+
+@import url('https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css');
+.heading {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+body {
+    background-color: #f2f2f2;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+h1 {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    color: hsl(0 0% 10%);
+    font-family: system-ui, sans-serif;
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.neumorphic-button {
+    border: 1px solid whitesmoke;
+    border-radius: 1rem;
+    color: hsl(0 0% 10%);
+    background: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    box-shadow:
+            -.5rem -.5rem 1rem hsl(0 0% 100% / .75),
+            .5rem .5rem 1rem hsl(0 0% 50% / .5);
+    outline: none;
+    transition: all 0.1s;
+    font-size: 60px;
+    font-weight:bolder;
+    font-family: system-ui, sans-serif;
+    cursor: pointer;
+    padding: 20px 40px;
+}
+
+
+.neumorphic-button:hover,
+.neumorphic-button:focus-visible {
+    color: hsl(10 80% 50%);
+    transform: scale(1.1);
+}
+
+.neumorphic-button:active,
+.neumorphic-button.active {
+    box-shadow:
+            -.5rem -.5rem 1rem hsl(0 0% 100% / .75),
+            .5rem .5rem 1rem hsl(0 0% 50% / .5),
+            inset .5rem .5rem 1rem hsl(0 0% 50% / .5),
+            inset -.5rem -.5rem 1rem hsl(0 0% 100% / .75);
+    color: hsl(10 80% 50%);
+}
+
+.neumorphic-button > i {
+    font-size: 31px;
+}
+
+.neumorphic-button > span {
+    font-size: 16px;
+}
