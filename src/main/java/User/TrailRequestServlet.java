@@ -69,11 +69,11 @@ public class TrailRequestServlet extends HttpServlet {
         ResultSet reqStatusResultSet = reqStatusPs.executeQuery();
         String reqStat = "";
         String reqItems = "";
-        while(reqResultSet.next()) {
-            reqStat+= reqStatusResultSet.getString("request");
-            reqItems+=reqStatusResultSet.getString("reqItems");
+        while(reqStatusResultSet.next()) {
+            reqStat+= reqStatusResultSet.getString(1);
+            reqItems+=reqStatusResultSet.getString(2);
         }
-        System.out.println(reqItems);
+        System.out.println("Request Items: "+reqItems);
         List<Character> reqItemsList = reqItems.chars().mapToObj(c -> (char) c).collect(Collectors.toList());
         sc.setAttribute("requestedItems",reqItemsList);
         sc.setAttribute("requestStatus",reqStat); // request status

@@ -8,11 +8,28 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payments</title>
+    <link rel="stylesheet" href="RegisterUser.css">
 </head>
 <body>
-<jsp:include page="setPayments.html" />
-
+<h1>Krishna Meadows</h1>
+<form action="SetPayments-Servlet" method="post">
+    <div class="form-group">
+        <label for="service">Service:</label>
+        <input type="text" id="service" name="service" required>
+    </div>
+    <div class="form-group">
+        <label for="amount">Amount:</label>
+        <input type="text" id="amount" name="amount" required>
+    </div>
+    <button type="submit" id="subbtn" onclick="showAlert()">Done</button>
+</form>
+<script>
+    function showAlert(){
+        alert("New Payment requests set successfully.")
+    }
+</script>
 </body>
-
 </html>

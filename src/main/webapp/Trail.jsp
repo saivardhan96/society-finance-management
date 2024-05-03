@@ -44,7 +44,7 @@
         <% for (int i=0;i< services.size();i++) { %>
             <%  char c = reqLis.charAt(i);
             if(reqItems!=null){
-                if(c=='1' && !reqItems.contains(c)){
+                if(c=='1' && !reqItems.contains((char) (i+48))){
                 tableRows++;
                 String rowId = "row"+i;
             %>
@@ -76,7 +76,6 @@
             }%>
         </tbody>
     </table>
-
     <input type="submit" value="send Request" id="sendRequestBtn" disabled onclick="showAlert()" >
     <input type="hidden" id="hiddenField" name="totalAmountHidden">
     <input type="hidden" id="rows" name="rows" value=<%=tableRows%>>
