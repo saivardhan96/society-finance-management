@@ -43,9 +43,7 @@ public class AdminLoginServlet extends HttpServlet {
                 resp.sendRedirect("adminpage.jsp");
             }
             else{
-                resp.setContentType("text/html");
-                out.println("<font color=red size=30> Login Failed!<br>");
-                out.println("<a href=login.jsp> TRY AGAIN");
+                resp.sendRedirect("adminLogin.html");
             }
 
         } catch (ClassNotFoundException e) {

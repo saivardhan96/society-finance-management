@@ -28,7 +28,7 @@ public class AdminPaymentRequestServlet extends HttpServlet {
 
         try {
             int updates = 0;
-            for (String acceptedUsername: acceptedUsernames) {
+            for (String acceptedUsername: acceptedUsernames) { // try if there's any optimal way
                 reqItems = con.prepareStatement("select reqItems,reqStatus from financetrail where uname = ?;");
                 reqItems.setString(1, acceptedUsername);
                 ResultSet rs = reqItems.executeQuery();
@@ -47,7 +47,7 @@ public class AdminPaymentRequestServlet extends HttpServlet {
                         con.prepareStatement("update financetrail set request='approved', reqAmount='0', reqStatus = ?, reqItems = null where uname=?;");
                 financeUpdate.setString(1, str.toString());
                 financeUpdate.setString(2, acceptedUsername);
-                PreparedStatement paymentsUpdate = con.prepareStatement(paymentsQuery);
+                PreparedStatement paymentsUpdate = con.prepareStatement(paymentsQuery); // updates number of users paid
                 int j = financeUpdate.executeUpdate();
                 int k = paymentsUpdate.executeUpdate();
                 if (j>0 && k>0) updates++;

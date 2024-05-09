@@ -37,9 +37,6 @@ public class TrailRequestServlet extends HttpServlet {
             ps1.setString(4,un); // uploaded in db so when admin approves then 1 -> 0
             System.out.println("Amount selected to pay: "+requestedAmount);
             System.out.println("Items selected to pay: "+paidList); // to do: set 1's to zeroes at these numbers in reqList.
-//            PreparedStatement ps = con.prepareStatement("update financetrail set ");
-//            ps.setString(1,requestedAmount);
-//            int j=ps.executeUpdate();
             int i = ps1.executeUpdate();
             if(i>0){
                 refreshAttributes(con,un);
@@ -51,8 +48,6 @@ public class TrailRequestServlet extends HttpServlet {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
     private void refreshAttributes(Connection con,String un) throws SQLException{

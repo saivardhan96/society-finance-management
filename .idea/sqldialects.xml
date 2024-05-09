@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/33d6c539-b50a-483e-bcfe-cd74a96da315/console.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/User/LoginServlet.java" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/example/demo2/RegisterServlet.java" dialect="MySQL" />
+    <file url="PROJECT" dialect="MySQL" />
   </component>
 </project>
