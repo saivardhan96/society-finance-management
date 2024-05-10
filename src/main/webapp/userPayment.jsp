@@ -76,7 +76,7 @@
         <button class="neumorphic-button" type="submit"><i class="far fa-credit-card"></i><span>New Payment</span></button>
     </form>
     <button class="neumorphic-button" type="button" onclick="showOverlayWithText()"><i class="fas fa-info-circle"></i><span>Current Status</span></button>
-    <button class="neumorphic-button" type="button"><i class="fas fa-history"></i><span>Previous History</span></button>
+    <button class="neumorphic-button" type="button" onclick="showUserHistory()"><i class="fas fa-history"></i><span>Previous History</span></button>
 
 </div>
 <!-- Overlay -->
@@ -91,6 +91,9 @@
     function showOverlay() {
         document.getElementById('overlay').style.display = 'block';
         // You can add additional logic here if needed
+    }
+    function showUserHistory(){
+        window.location.href="userHistory.jsp"
     }
 
     function showOverlayWithText() {

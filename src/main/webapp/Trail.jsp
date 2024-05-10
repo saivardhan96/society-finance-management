@@ -24,9 +24,11 @@
 <%
     int tableRows = 0;
     ArrayList<String> services = (ArrayList<String>) session.getServletContext().getAttribute("serviceList");
+    System.out.println("SERVICES ACTUALLY: "+services);
     ArrayList<Integer> amounts = (ArrayList<Integer>) session.getServletContext().getAttribute("amountList");
     StringBuilder reqLis =  new StringBuilder(session.getServletContext().getAttribute("reqList").toString());
     ArrayList<Character> reqItems = (ArrayList<Character>) session.getServletContext().getAttribute("requestedItems");
+    System.out.println("Requested Items are: "+ reqItems);
 %>
 <body>
 
@@ -40,7 +42,6 @@
         </tr>
         </thead>
         <tbody>
-        <%-- Iterate over the values and generate table rows --%>
         <% for (int i=0;i< services.size();i++) { %>
             <%  char c = reqLis.charAt(i);
             if(reqItems!=null){
@@ -58,7 +59,7 @@
                 <%}
                 }
             else{
-                if(c=='1'){
+                if(c =='1'){
                     tableRows++;
                     String rowId = "row"+i;
                 %>
@@ -93,12 +94,9 @@
     // console.log(rows);
     const checkboxes = document.getElementsByClassName('checkbox');
     for (let i = 1; i<=rows; i++) {
-        // console.log("Checkbox: "+checkboxes[i-1].id)
-        // console.log("Amount: "+table.rows[i].cells[2].textContent)
 
         if (table.rows[i].cells[2].textContent!=null) {
             checkboxes[i-1].addEventListener('change', function (qualifiedName, value) {
-                // console.log(checkboxes[i-1].id)
                 let amount = table.rows[i].cells[2].textContent;
                 // console.log("MOUNT: "+amount)
                 let items = checkboxes[i-1].id;
@@ -106,10 +104,8 @@
                     sendButton.removeAttribute("disabled");
                     sumAmount += Number(amount);
                     // console.log("checked" + amount); //log
-                    // console.log("checked" + items); //log
                     paidItems += String(items);
                     document.getElementById("sendRequestBtn").disabled=false//removing the unchecked item from paiditems
-                    // console.log(paidItems);
                 }
                 else {
                     sumAmount -= Number(amount);
@@ -135,49 +131,3 @@
 </script>
 </body>
 </html>
-
-
-<%--        const table = document.getElementById('myTable').getElementsByTagName('tbody')[0]; // to get table
-        for( let i=0;i<<%=totalRows%>;i++){
-            var row = table.rows[i];
-            var checkBox = row.cells[0].querySelector('input[type="checkbox"]');
-            if(checkBox.checked){
-                var retrAmount = row.cells[2].textContent;
-                sumAmount+=Number(retrAmount);
-                const cbId = checkBox.id;
-                paidItems+=String(cbId);
-            }
-
-        }--%>
-<%--
-/*    // Attach event listener to each checkbox
-
-let i=0;
-
-let totalAmount = 0;
-checkboxes.forEach(function (checkbox) {
-checkbox.addEventListener('change', function () {
-let query = 'amount'+i.toString();
-const retramount = document.getElementById(query).textContent;
-
-
-// Store the value as needed (for example, log it to the console)
-if (this.checked) {
-totalAmount+=Number(retramount);
-console.log("totalAmount: "+totalAmount);
-console.log("Checkbox checked, amount is:", retramount);
-} else {
-totalAmount-=Number(retramount);
-console.log("totalAmount: "+totalAmount);
-console.log("Checkbox unchecked");
-}
-i++;
-document.getElementById("hiddenField").value = totalAmount;
-});
-});
-console.log(totalAmount);*/
---%>
-<%--
-<%response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // for http 1.1
-response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
-response.setDateHeader("Expires", 0); // for proxy servers %>--%>

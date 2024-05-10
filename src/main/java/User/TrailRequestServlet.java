@@ -70,7 +70,7 @@ public class TrailRequestServlet extends HttpServlet {
         }
         System.out.println("Request Items: "+reqItems);
         List<Character> reqItemsList = reqItems.chars().mapToObj(c -> (char) c).collect(Collectors.toList());
-        sc.setAttribute("requestedItems",reqItemsList);
+        sc.setAttribute("requestedItems",reqItems);
         sc.setAttribute("requestStatus",reqStat); // request status
 
 

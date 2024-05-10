@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 @WebServlet(name = "adminpaymentrequestservlet",urlPatterns = "/PaymentRequests-Admin")
 public class AdminPaymentRequestServlet extends HttpServlet {
@@ -43,6 +44,11 @@ public class AdminPaymentRequestServlet extends HttpServlet {
                 StringBuilder str = new StringBuilder(requestStatus);
                 for (int l = 0; l < requestedItems.length(); l++)
                     str.setCharAt(Integer.parseInt(String.valueOf(requestedItems.charAt(l))), '0');
+                PreparedStatement histUpdate = con.prepareStatement("insert into history values (?,CURRENT_TIMESTAMP,?,(select reqAmount from financetrail where uname = ?))");
+                histUpdate.setString(1,acceptedUsername);
+                histUpdate.setString(2,requestedItems);
+                histUpdate.setString(3,acceptedUsername);
+                int f = histUpdate.executeUpdate();
                 PreparedStatement financeUpdate =
                         con.prepareStatement("update financetrail set request='approved', reqAmount='0', reqStatus = ?, reqItems = null where uname=?;");
                 financeUpdate.setString(1, str.toString());
@@ -50,7 +56,7 @@ public class AdminPaymentRequestServlet extends HttpServlet {
                 PreparedStatement paymentsUpdate = con.prepareStatement(paymentsQuery); // updates number of users paid
                 int j = financeUpdate.executeUpdate();
                 int k = paymentsUpdate.executeUpdate();
-                if (j>0 && k>0) updates++;
+                if (j>0 && k>0 && f>0) updates++;
             }
 
             if(updates>0) {

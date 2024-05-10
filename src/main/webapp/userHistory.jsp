@@ -8,13 +8,13 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    if(session.getAttribute("adminName")==null) response.sendRedirect("index.jsp");
+    if(session.getAttribute("userName")==null) response.sendRedirect("index.jsp");
 %>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Requests</title>
+    <title>Payment History</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -77,56 +77,52 @@
 <body>
 
 <%
-    ArrayList<String> usernames = (ArrayList<String>) request.getAttribute("usernames");
-    ArrayList<String> amount = (ArrayList<String>) request.getAttribute("amounts");
-    StringBuilder acceptedUsernames = new StringBuilder();
+    ServletContext sc = session.getServletContext();
+    ArrayList<String> services = (ArrayList<String>) sc.getAttribute("historyServices");
+    ArrayList<String> amount = (ArrayList<String>) sc.getAttribute("historyAmount");
+    ArrayList<String> paidDate = (ArrayList<String>) sc.getAttribute("historyPaidDate");
+    ArrayList<String> serviceList = (ArrayList<String>) sc.getAttribute("serviceList");
 %>
-<h1>Payment Requests</h1>
-<form action="PaymentRequests-Admin" method="post" >
+<h1>Payment History</h1>
+
     <table id="paymentTable">
         <thead>
         <tr>
-            <th>Username</th>
+            <th>Service</th>
             <th>Amount</th>
-            <th>Status</th>
+            <th>Date</th>
+            <th>Time</th>
         </tr>
         </thead>
         <tbody id="paymentTableBody">
         <%
-            for(int i=0;i<usernames.size();i++){%>
+            for(int i=0;i<services.size();i++){
+                StringBuilder service = new StringBuilder();
+                String currService = services.get(i);
+                int l = services.get(i).length();
+                for(int j=0;j<l;j++){
+                    service.append(serviceList.get(currService.charAt(j) - '0'));
+                    if(j!=l-1) service.append(" | ");
+                }
+        %>
         <tr>
-            <td> <%=usernames.get(i)%></td>
+
+            <td> <%=service.toString()%></td>
             <td> <%=amount.get(i)%></td>
-            <td><button class="accept-button" onclick=<%acceptedUsernames.append(usernames.get(i)).append(" ");%>
-                "acceptRequest('<%= usernames.get(i) %>', this)" >
-                Accept</button></td>
+            <td> <%=paidDate.get(i).substring(0,11)%></td>
+            <td> <%=paidDate.get(i).substring(12)%></td>
         </tr>
-        <input type="hidden" id="acceptedUsernames" name="acceptedUsernames" value=<%= acceptedUsernames.toString() %>>
         <% } %>
         </tbody>
     </table>
-    <input type="hidden" id="acceptedAmounts" name="acceptedNames" value="" >
-    <input type="submit" value="Done" onclick="showAlert()">
-</form>
+    <input type="submit" value="Back" onclick="takeMeBack()">
 
 
 <script>
-    let jj = "";
-    function acceptRequest(username, button) {
-        document.getElementById("acceptedAmounts").ariaDisabled=false;
-        alert("Payment request from "+username+" accepted!");
-        jj+=username+" ";
-        document.getElementById("acceptedUsernames").value=jj;
-        console.log(jj);
-        button.textContent = "Accepted";
-        button.disabled = true;
+    function takeMeBack() {
+        location.replace("/userPayment.jsp");
     }
-    function showAlert() {
-        alert("Done!!!")
-        history.replaceState(null,document.title,"/adminpage.jsp")
-
-    }
-
 </script>
+
 </body>
 </html>

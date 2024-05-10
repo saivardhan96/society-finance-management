@@ -14,8 +14,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-
+import java.util.stream.Collectors;
 
 
 @WebServlet(name = "loginServlet", urlPatterns = "/login-servlet")
@@ -30,14 +31,22 @@ public class LoginServlet extends HttpServlet {
 
 
     private void setContexts(String username, Connection con) throws SQLException {
+        ArrayList<String> ans = getReqStatus(con,username);
+        ArrayList<ArrayList<String>> userHistory = getHistory(con,username);
         ServletContext servletContext = getServletContext();
         servletContext.setAttribute("con",con); // Connection to db
-//        servletContext.setAttribute("userName",username); // Username
-        servletContext.setAttribute("serviceList",getServices(con)); // Services provided by the society.
+        ArrayList<String> services = getServices(con);
+        servletContext.setAttribute("serviceList",services); // Services provided by the society.
         servletContext.setAttribute("amountList",getAmounts(con));   // Cost of the services
         // better to set these in payments servlet so that they get updates when ever we visit rather than session wise...
-        servletContext.setAttribute("requestStatus",getReqStatus(con,username)); // Request status of user (Sent/Approved/Not sent)
-        servletContext.setAttribute("reqList",getPaidStatus(con,username)); // items requested to pay (0->Paid 1->Pending)
+        servletContext.setAttribute("requestStatus",ans.get(0)); // Request status of user (Sent/Approved/Not sent)
+        servletContext.setAttribute("reqList",ans.get(1)); // items requested to pay (0->Paid 1->Pending)
+        List<Character> reqItemsList = null;
+        if(ans.get(2)!=null) reqItemsList = ans.get(2).chars().mapToObj(c -> (char) c).collect(Collectors.toList());
+        servletContext.setAttribute("requestedItems",reqItemsList);
+        servletContext.setAttribute("historyAmount",userHistory.get(1));
+        servletContext.setAttribute("historyServices",userHistory.get(0));
+        servletContext.setAttribute("historyPaidDate",userHistory.get(2));
     }
 
 
@@ -51,7 +60,7 @@ public class LoginServlet extends HttpServlet {
             String un = req.getParameter("username");
             String p = req.getParameter("password");
             setContexts(un,con);
-            PreparedStatement ps = con.prepareStatement("select password from logins where uname=?");
+            PreparedStatement ps = con.prepareStatement("select password from logins where uname = ?");
             ps.setString(1,un);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
@@ -79,7 +88,6 @@ public class LoginServlet extends HttpServlet {
     }
 
 
-
     private ArrayList<String> getServices(Connection con) throws SQLException {
         PreparedStatement servicesPs = con.prepareStatement("select service from payments");
         ResultSet rs = servicesPs.executeQuery();
@@ -90,16 +98,7 @@ public class LoginServlet extends HttpServlet {
         return servicesList;
     }
 
-    protected String getPaidStatus(Connection con,String un) throws SQLException { // Tells which services he had paid and which he didn't
-        PreparedStatement reqPs = con.prepareStatement("select reqStatus from financetrail where uname=?");
-        reqPs.setString(1,un);
-        ResultSet reqResultSet = reqPs.executeQuery();
-        String paidStatus = "";
-        if(reqResultSet.next()) paidStatus+= reqResultSet.getString(1);
-        return paidStatus;
-    }
     private ArrayList<Integer> getAmounts(Connection con) throws SQLException {
-
         PreparedStatement amountPs = con.prepareStatement("select amount from payments");
         ResultSet amountRs = amountPs.executeQuery();
         ArrayList<Integer> amountList = new ArrayList<>();
@@ -109,13 +108,38 @@ public class LoginServlet extends HttpServlet {
         return amountList;
     }
 
-    protected String getReqStatus(Connection con,String un) throws SQLException { // approved or sent...
-        PreparedStatement reqPs = con.prepareStatement("select request from financetrail where uname=?");
+    private ArrayList<String> getReqStatus (Connection con,String un) throws SQLException { // approved or sent...
+        PreparedStatement reqPs = con.prepareStatement("select request,reqStatus,reqItems from financetrail where uname=?");
         reqPs.setString(1,un);
+        ArrayList<String> ans = new ArrayList<>();
         ResultSet reqResultSet = reqPs.executeQuery();
         String reqStat = "";
-        if(reqResultSet.next()) reqStat+= reqResultSet.getString(1);
-        return reqStat;
+        while (reqResultSet.next()) {
+            ans.add(reqResultSet.getString(1));
+            ans.add(reqResultSet.getString(2));
+            ans.add(reqResultSet.getString(3));
+        }
+        return ans;
+    }
+
+    private ArrayList<ArrayList<String>> getHistory(Connection con, String un) throws SQLException{
+        ArrayList<String> serviceHist= new ArrayList<>();
+        ArrayList<String> amountHist= new ArrayList<>();
+        ArrayList<String> dateHist= new ArrayList<>();
+        PreparedStatement historyPs = con.prepareStatement("select services,amount,paidDate from history where uname = ?");
+        historyPs.setString(1,un);
+        ResultSet historySet = historyPs.executeQuery();
+        while (historySet.next()){
+            serviceHist.add(historySet.getString("services"));
+            amountHist.add(String.valueOf(historySet.getInt("amount")));
+            dateHist.add(historySet.getString("paidDate"));
+        }
+
+        return new ArrayList<>(){{
+            add(serviceHist);
+            add(amountHist);
+            add(dateHist);
+        }};
     }
 
 }
