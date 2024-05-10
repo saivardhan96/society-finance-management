@@ -25,7 +25,7 @@ public class TrailRequestServlet extends HttpServlet {
             PrintWriter out = resp.getWriter();
             ServletContext servletContext = getServletContext();
             Connection con = (Connection) servletContext.getAttribute("con");
-            PreparedStatement ps1 =con.prepareStatement("update financetrail set request = 'sent',reqAmount= reqAmount+?,reqItems= if(reqItems is null ,?,concat(reqItems,?))  where uname=?");
+            PreparedStatement ps1 =con.prepareStatement("update financetrail set request = 'sent', last_paid = CURRENT_DATE, reqAmount= reqAmount+?,reqItems= if(reqItems is null ,?,concat(reqItems,?))  where uname=?");
             HttpSession session = req.getSession();
             String un = (String) session.getAttribute("userName");
             int requestedAmount = Integer.parseInt(req.getParameter("totalAmountHidden"));

@@ -20,7 +20,12 @@ public class AdminLoginServlet extends HttpServlet {
         ServletContext servletContext = getServletContext();
         servletContext.setAttribute("con",con);
         servletContext.setAttribute("services",getServices(con));
-//        servletContext.setAttribute("userName",username);
+        ArrayList<ArrayList<String>> ans = delyaedDetails(con);
+        if(!ans.isEmpty()) {
+            servletContext.setAttribute("delayedNames", ans.get(0));
+            servletContext.setAttribute("delayedPhone", ans.get(1));
+            servletContext.setAttribute("delayedFlat", ans.get(2));
+        }
     }
 
     @Override
@@ -61,5 +66,24 @@ public class AdminLoginServlet extends HttpServlet {
            services.add(rs.getString(1));
         }
         return services;
+    }
+
+    // delayed users -- details retrieving
+    private ArrayList<ArrayList<String>> delyaedDetails(Connection con) throws SQLException{
+        ArrayList<String> name = new ArrayList<>();
+        ArrayList<String> phone = new ArrayList<>();
+        ArrayList<String> flat = new ArrayList<>();
+        PreparedStatement delayedPs = con.prepareStatement("select familytrail.name , familytrail.phone_number, familytrail.flat from familytrail join financetrail on familytrail.uname = financetrail.uname where financetrail.last_paid < '2024-05-10'");
+        ResultSet delayrs = delayedPs.executeQuery();
+        while(delayrs.next()){
+            name.add(delayrs.getString("name"));
+            phone.add(delayrs.getString("phone_number"));
+            flat.add(delayrs.getString("flat"));
+        }
+        return new ArrayList<>(){{
+            add(name);
+            add(phone);
+            add(flat);
+        }};
     }
 }

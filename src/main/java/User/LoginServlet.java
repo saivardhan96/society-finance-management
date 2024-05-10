@@ -31,7 +31,7 @@ public class LoginServlet extends HttpServlet {
 
 
     private void setContexts(String username, Connection con) throws SQLException {
-        ArrayList<String> ans = getReqStatus(con,username);
+        ArrayList<String> ans =(getReqStatus(con, username).isEmpty()) ? null : getReqStatus(con,username);
         ArrayList<ArrayList<String>> userHistory = getHistory(con,username);
         ServletContext servletContext = getServletContext();
         servletContext.setAttribute("con",con); // Connection to db
@@ -39,11 +39,13 @@ public class LoginServlet extends HttpServlet {
         servletContext.setAttribute("serviceList",services); // Services provided by the society.
         servletContext.setAttribute("amountList",getAmounts(con));   // Cost of the services
         // better to set these in payments servlet so that they get updates when ever we visit rather than session wise...
-        servletContext.setAttribute("requestStatus",ans.get(0)); // Request status of user (Sent/Approved/Not sent)
-        servletContext.setAttribute("reqList",ans.get(1)); // items requested to pay (0->Paid 1->Pending)
-        List<Character> reqItemsList = null;
-        if(ans.get(2)!=null) reqItemsList = ans.get(2).chars().mapToObj(c -> (char) c).collect(Collectors.toList());
-        servletContext.setAttribute("requestedItems",reqItemsList);
+        if(ans!=null){
+            servletContext.setAttribute("requestStatus",ans.get(0)); // Request status of user (Sent/Approved/Not sent)
+            servletContext.setAttribute("reqList",ans.get(1)); // items requested to pay (0->Paid 1->Pending)
+            List<Character> reqItemsList = null;
+            if(ans.get(2)!=null) reqItemsList = ans.get(2).chars().mapToObj(c -> (char) c).collect(Collectors.toList());
+            servletContext.setAttribute("requestedItems",reqItemsList);
+        }
         servletContext.setAttribute("historyAmount",userHistory.get(1));
         servletContext.setAttribute("historyServices",userHistory.get(0));
         servletContext.setAttribute("historyPaidDate",userHistory.get(2));

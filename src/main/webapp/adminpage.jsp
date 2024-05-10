@@ -41,8 +41,7 @@
         window.location.href="register.jsp";
     }
     function delayedUsers(){
-
-        window.location.href="DelayedDetails-Servlet";
+        window.location.href="delayedUsers.jsp";
     }
     function adminPayments(){
         window.location.href ="adminPayments.jsp";

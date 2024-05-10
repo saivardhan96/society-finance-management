@@ -19,38 +19,19 @@ import java.util.ArrayList;
 
 @WebServlet(name = "trialPaymentServlet",urlPatterns = "/TrialPayment-Servlet")
 public class TrialPaymentServlet extends HttpServlet {
-//    @Override
-//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        if(req.getSession().getAttribute("username")==null) resp.sendRedirect("login.jsp");
-//        else{
-//            doPost(req,resp);
-//        }
-//    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter out = resp.getWriter();
         ServletContext servletContext = getServletContext();
-        Connection con = (Connection) servletContext.getAttribute("con");
-        HttpSession session = req.getSession();
-        String un = (String) session.getAttribute("userName");
-        int dueAmount = 0;  // Amount user needs to pay...
-        try {
-            PreparedStatement ps = con.prepareStatement("select due_amount from financetrail where uname =?;");
-            ps.setString(1,un);
-            ResultSet rs = ps.executeQuery();
-            if(rs.next()) dueAmount=rs.getInt(1);
-            System.out.println("Due amount: "+dueAmount);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        ArrayList<String> serviceList = (ArrayList<String>) getServletContext().getAttribute("serviceList");
-//        ArrayList<Integer> amountList = (ArrayList<Integer>) getServletContext().getAttribute("amountList");
-        StringBuilder reqList = new StringBuilder( (String) getServletContext().getAttribute("reqList"));
+        ArrayList<String> serviceList = (ArrayList<String>) servletContext.getAttribute("serviceList");
+        String reqList = (String) servletContext.getAttribute("reqList");
         int duePayments = 0; // Payments user needs to make
-        for(int i=0;i<reqList.length();i++) if(reqList.charAt(i)=='1') duePayments++;
-//        String temp = (String) getServletContext().getAttribute("reqList");
-//        System.out.println(serviceList);
+        if(reqList==null) duePayments=0;
+        else for(int i=0;i<reqList.length();i++) if(reqList.charAt(i)=='1'){
+            duePayments++;
+            break;
+        }
         if(!serviceList.isEmpty() && duePayments>0){
             resp.sendRedirect("Trail.jsp");
         }

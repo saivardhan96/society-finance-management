@@ -28,27 +28,29 @@ public class RegisterServlet extends HttpServlet {
             String p = req.getParameter("password");
             String phoneNumber = req.getParameter("phone");
             String email = req.getParameter("email");
-//            String phoneNumber = req.getParameter("phone");
+            String name = req.getParameter("name");
             String flat = req.getParameter("flat");
-            PreparedStatement ps = con.prepareStatement("insert into logins values(?,?)");
-            PreparedStatement ps1 = con.prepareStatement("insert into familytrail values (?,?,?,?,?)");
-            con.prepareStatement("insert into financetrail values (0,0,0,0,?,'2024-03-10',0)").setString(1,un);
-            ps.setString(1,un);
-            ps.setString(2,p);
-            ps1.setString(1,phoneNumber);
-            ps1.setString(2,email);
-            ps1.setBoolean(3,false);
-            ps1.setString(4,un);
-            ps1.setString(5,flat);
-            int i = ps.executeUpdate();
-            int j = ps1.executeUpdate();
-            if (i<=0 || j<=0){
+            PreparedStatement loginPS = con.prepareStatement("insert into logins values(?,?)");
+            PreparedStatement familyPs = con.prepareStatement("insert into familytrail values (?,?,?,?,?)");
+            PreparedStatement finPs = con.prepareStatement("insert into financetrail values (0,0,0,0,?,null,0)");
+            finPs.setString(1,un);
+            loginPS.setString(1,un);
+            loginPS.setString(2,p);
+            familyPs.setString(1,phoneNumber);
+            familyPs.setString(2,email);
+//            familyPs.setBoolean(3,false); // not there
+            familyPs.setString(3,un);
+            familyPs.setString(4,flat);
+            familyPs.setString(5,name);
+            int i = loginPS.executeUpdate();
+            int j = familyPs.executeUpdate();
+            int k = finPs.executeUpdate();
+            if (i<=0 || j<=0 || k<=0) {
                 out.println("Registration Unsuccessful. Try again!!");
             }
             else{
                 resp.sendRedirect("adminpage.jsp");
             }
-
         }
         catch (Exception e){
             System.out.println(e);
