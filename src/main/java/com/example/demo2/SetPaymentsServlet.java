@@ -32,18 +32,14 @@ public class SetPaymentsServlet extends HttpServlet {
             ps.setInt(2, Integer.parseInt(amount));
             PreparedStatement reqStatUpdate = con.prepareStatement("update financetrail set reqStatus = concat(reqStatus,'1');");
             int reqUpdate = reqStatUpdate.executeUpdate();
-/*            PreparedStatement ps1 = con.prepareStatement("update financetrail set due_amount = due_amount+?");
-            ps1.setInt(1,Integer.parseInt(amount));
-            int rs1 = ps1.executeUpdate();*/
-
             int i = ps.executeUpdate();
             if(i>0 && reqUpdate>0){
                 // we can blur background saying, Set was successful;
                 resp.sendRedirect("adminpage.jsp");
             }
             else out.println("unSuccessfully set!!!");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e); // set this error page...
         }
 
 

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class TrialPaymentServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         PrintWriter out = resp.getWriter();
         ServletContext servletContext = getServletContext();
         ArrayList<String> serviceList = (ArrayList<String>) servletContext.getAttribute("serviceList");

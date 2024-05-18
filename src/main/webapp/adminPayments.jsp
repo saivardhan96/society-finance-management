@@ -30,7 +30,7 @@
 </head>
 <body>
 <div class="heading">
-    <h1>Krishna Meadows</h1>
+    <h1>Krishna Society</h1>
 </div>
 <div class="buttons">
     <form action="AdminPayments-Servlet" method="post">
@@ -38,18 +38,13 @@
             <span>Payment Requests</span></button>
     </form>
     <button class="neumorphic-button" type="button" onclick="displayPage()"><i class="fas fa-coins"></i> <span>Set Payments</span></button>
-<%--    <button class="neumorphic-button" type="button" ><i class="fas fa-coins"></i> <span>Back</span></button>--%>
 </div>
 <script>
 
     function displayPage(){
-        alert("clicked");
          window.location.href='setPayments.jsp';
     }
 
-    function takeMeaBack() {
-
-    }
 </script>
 </body>
 

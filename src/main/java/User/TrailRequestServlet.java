@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,29 +52,22 @@ public class TrailRequestServlet extends HttpServlet {
     }
 
     private void refreshAttributes(Connection con,String un) throws SQLException{
-        PreparedStatement paidItemsPs = con.prepareStatement("select reqStatus from financetrail where uname=?");
+        ServletContext sc = getServletContext();
+        PreparedStatement paidItemsPs = con.prepareStatement("select reqStatus,request,reqItems from financetrail where uname=?");
         paidItemsPs.setString(1,un);
         ResultSet reqResultSet = paidItemsPs.executeQuery();
-        String paidStatus = "";
-        if(reqResultSet.next()) paidStatus+= reqResultSet.getString(1);
-        ServletContext sc = getServletContext();
-        sc.setAttribute("reqList",paidStatus); // items requested to pay
-
-        PreparedStatement reqStatusPs = con.prepareStatement("select request,reqItems from financetrail where uname=?");
-        reqStatusPs.setString(1,un);
-        ResultSet reqStatusResultSet = reqStatusPs.executeQuery();
-        String reqStat = "";
-        String reqItems = "";
-        while(reqStatusResultSet.next()) {
-            reqStat+= reqStatusResultSet.getString(1);
-            reqItems+=reqStatusResultSet.getString(2);
+        StringBuilder paidStatus = new StringBuilder();
+        StringBuilder reqStat = new StringBuilder();
+        StringBuilder reqItems = new StringBuilder();
+        while(reqResultSet.next()){
+            paidStatus.append(reqResultSet.getString("reqStatus"));
+            reqStat.append(reqResultSet.getString("request"));
+            reqItems.append(reqResultSet.getString("reqItems"));
         }
-        System.out.println("Request Items: "+reqItems);
-        List<Character> reqItemsList = reqItems.chars().mapToObj(c -> (char) c).collect(Collectors.toList());
-        sc.setAttribute("requestedItems",reqItems);
-        sc.setAttribute("requestStatus",reqStat); // request status
-
-
-
+        sc.setAttribute("reqList", paidStatus.toString()); // items requested to pay
+        ArrayList<String> reqItemsList = new ArrayList<>(List.of(reqItems.toString().split(",+")));
+        System.out.println("Requested Items List: "+reqItemsList);
+        sc.setAttribute("requestedItems",reqItemsList);
+        sc.setAttribute("requestStatus", reqStat.toString()); // request status
     }
 }

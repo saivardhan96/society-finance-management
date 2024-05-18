@@ -21,11 +21,11 @@
 </head>
 <body>
 <div class="heading">
-    <h1>Krishna Meadows</h1>
+    <h1>Krishna Society</h1>
 </div>
 <div class="buttons">
     <button class="neumorphic-button" type="button"><i class="fas fa-user" onclick="registerUser()"></i><span>Register User</span></button>
-    <button class="neumorphic-button" type="button"><i class="fas fa-sync"></i><span>Update Expenditure</span></button>
+    <button class="neumorphic-button" type="button"><i class="fas fa-sync" onclick="updateExpenditure()"></i><span>Update Expenditure</span></button>
     <button class="neumorphic-button" type="button"><i class="fas fa-chart-bar" onclick="delayedUsers()"></i><span>Delayed Reports</span></button>
     <button class="neumorphic-button" type="button"><i class="fas fa-receipt" onclick="adminPayments()"></i><span>Payments</span></button>
     <button class="neumorphic-button" type="button"><i class="fas fa-sign-out-alt" onclick="adminLogout()"></i><span>Logout</span></button>
@@ -35,7 +35,9 @@
 <script>
     function adminLogout() {
         window.location.replace("Logout-Servlet");
-
+    }
+    function updateExpenditure(){
+        window.location.href="updateExpenditure.jsp";
     }
     function registerUser(){
         window.location.href="register.jsp";

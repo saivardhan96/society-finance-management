@@ -78,7 +78,7 @@
 
 <%
     ServletContext sc = session.getServletContext();
-    ArrayList<String> services = (ArrayList<String>) sc.getAttribute("historyServices");
+    ArrayList<String> historyServices = (ArrayList<String>) sc.getAttribute("historyServices");
     ArrayList<String> amount = (ArrayList<String>) sc.getAttribute("historyAmount");
     ArrayList<String> paidDate = (ArrayList<String>) sc.getAttribute("historyPaidDate");
     ArrayList<String> serviceList = (ArrayList<String>) sc.getAttribute("serviceList");
@@ -96,21 +96,15 @@
         </thead>
         <tbody id="paymentTableBody">
         <%
-            for(int i=0;i<services.size();i++){
-                StringBuilder service = new StringBuilder();
-                String currService = services.get(i);
-                int l = services.get(i).length();
-                for(int j=0;j<l;j++){
-                    service.append(serviceList.get(currService.charAt(j) - '0'));
-                    if(j!=l-1) service.append(" | ");
-                }
+            for(int i=0;i<historyServices.size();i++){
+
         %>
         <tr>
 
-            <td> <%=service.toString()%></td>
+            <td> <%=historyServices.get(i)%></td>
             <td> <%=amount.get(i)%></td>
             <td> <%=paidDate.get(i).substring(0,11)%></td>
-            <td> <%=paidDate.get(i).substring(12)%></td>
+            <td> <%=paidDate.get(i).substring(11)%></td>
         </tr>
         <% } %>
         </tbody>

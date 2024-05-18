@@ -24,10 +24,10 @@
 <%
     int tableRows = 0;
     ArrayList<String> services = (ArrayList<String>) session.getServletContext().getAttribute("serviceList");
-    System.out.println("SERVICES ACTUALLY: "+services);
+//    System.out.println("SERVICES ACTUALLY: "+services);
     ArrayList<Integer> amounts = (ArrayList<Integer>) session.getServletContext().getAttribute("amountList");
     StringBuilder reqLis =  new StringBuilder(session.getServletContext().getAttribute("reqList").toString());
-    ArrayList<Character> reqItems = (ArrayList<Character>) session.getServletContext().getAttribute("requestedItems");
+    ArrayList<String> reqItems = (ArrayList<String>) session.getServletContext().getAttribute("requestedItems");
     System.out.println("Requested Items are: "+ reqItems);
 %>
 <body>
@@ -45,7 +45,7 @@
         <% for (int i=0;i< services.size();i++) { %>
             <%  char c = reqLis.charAt(i);
             if(reqItems!=null){
-                if(c=='1' && !reqItems.contains((char) (i+48))){
+                if(c=='1' && !reqItems.contains(String.valueOf(i))){
                 tableRows++;
                 String rowId = "row"+i;
             %>
@@ -105,6 +105,7 @@
                     sumAmount += Number(amount);
                     // console.log("checked" + amount); //log
                     paidItems += String(items);
+                    paidItems+=",";
                     document.getElementById("sendRequestBtn").disabled=false//removing the unchecked item from paiditems
                 }
                 else {
@@ -112,13 +113,15 @@
                     if(sumAmount===0) sendButton.setAttribute("disabled", value);
                     // console.log("unchecked: " + amount);
                     let oldItems = document.getElementById("paidItems").value.toString();
-                    const ind = oldItems.indexOf(items);
-                    paidItems = oldItems.slice(0, ind) + oldItems.slice(ind + 1);
+                    const startInd = oldItems.indexOf(items);
+                    const endInd = startInd + items.length + 1
+                    paidItems = oldItems.slice(0, startInd) + oldItems.slice(endInd);
                     // console.log("Unchecked paid items: " + paidItems);
                 }
                 document.getElementById("hiddenField").value = sumAmount;
                 document.getElementById("paidItems").value = paidItems;
-                 // added jus now
+                console.log(paidItems);
+                console.log(sumAmount);
             })
         }
     }

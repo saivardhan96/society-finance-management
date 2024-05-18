@@ -38,7 +38,7 @@ public class AdminPaymentsServlet extends HttpServlet {
 //        ArrayList<ArrayList<String>> details = (ArrayList<ArrayList<String>>) servletContext.getAttribute("requestDetails");
 //        System.out.println("Details: "+details);
         try {
-            PreparedStatement ps = con.prepareStatement("select uname,reqAmount from financetrail where request='sent';");
+            PreparedStatement ps = con.prepareStatement("select uname,reqAmount from financetrail where request='sent'");
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 usernames.add(rs.getString("uname"));

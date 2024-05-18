@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="heading">
-    <h1>Krishna Meadows</h1>
+    <h1>Krishna Society</h1>
 </div>
 <div class="form">
     <form action="login-servlet" method="post" >

@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class LoginServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/plain");
         resp.getWriter().println("Hey!!");
         resp.getWriter().println("This is next line");
@@ -136,7 +136,6 @@ public class LoginServlet extends HttpServlet {
             amountHist.add(String.valueOf(historySet.getInt("amount")));
             dateHist.add(historySet.getString("paidDate"));
         }
-
         return new ArrayList<>(){{
             add(serviceHist);
             add(amountHist);
