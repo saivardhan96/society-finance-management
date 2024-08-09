@@ -82,6 +82,7 @@
       <option name="Make" enabled="true" />
       <option name="BuildArtifacts" enabled="true">
         <artifact name="demo2:war exploded" />
+        <artifact name="demo2:war" />
       </option>
     </method>
   </configuration>

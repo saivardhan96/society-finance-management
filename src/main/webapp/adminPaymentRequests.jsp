@@ -97,8 +97,7 @@
         <tr>
             <td> <%=usernames.get(i)%></td>
             <td> <%=amount.get(i)%></td>
-            <td><button class="accept-button" onclick=<%acceptedUsernames.append(usernames.get(i)).append(" ");%>
-                "acceptRequest('<%= usernames.get(i) %>', this)" >
+            <td><button class="accept-button" onclick="acceptRequest('<%= usernames.get(i) %>',this)">
                 Accept</button></td>
         </tr>
         <input type="hidden" id="acceptedUsernames" name="acceptedUsernames" value=<%= acceptedUsernames.toString() %>>
@@ -106,7 +105,7 @@
         </tbody>
     </table>
     <input type="hidden" id="acceptedAmounts" name="acceptedNames" value="" >
-    <input type="submit" value="Done" onclick="showAlert()">
+    <input type="submit" id="doneBtn" value="Done" disabled onclick="showAlert()">
 </form>
 
 
@@ -115,6 +114,7 @@
     function acceptRequest(username, button) {
         document.getElementById("acceptedAmounts").ariaDisabled=false;
         alert("Payment request from "+username+" accepted!");
+        document.getElementById("doneBtn").disabled=false;
         jj+=username+" ";
         document.getElementById("acceptedUsernames").value=jj;
         console.log(jj);
@@ -124,7 +124,6 @@
     function showAlert() {
         alert("Done!!!")
         history.replaceState(null,document.title,"/adminpage.jsp")
-
     }
 
 </script>
