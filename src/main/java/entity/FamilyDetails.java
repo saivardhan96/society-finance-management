@@ -15,7 +15,7 @@ public class FamilyDetails {
     @Id
     private String uname;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", columnDefinition = "char(10)")
     private String phoneNumber;
     @Column(name = "email_id")
     private String email;

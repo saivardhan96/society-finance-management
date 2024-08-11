@@ -20,7 +20,7 @@ public class AdminPaymentsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        if(session.getAttribute("username")==null) resp.sendRedirect("AdminLogin.html");
+        if(session.getAttribute("adminName")==null) resp.sendRedirect("AdminLogin.html");
         else{
             System.out.println("This is get method from AdminPaymentsServlet...");
         }

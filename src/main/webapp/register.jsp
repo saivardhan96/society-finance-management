@@ -6,50 +6,60 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    if(session.getAttribute("adminName")==null) response.sendRedirect("index.jsp");
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // for http 1.1
+    response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+    response.setDateHeader("Expires", 0); // for proxy servers
+%>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Registration Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="stylesheet" href="RegisterUser.css">
 </head>
 <body>
-<jsp:include page="RegisterUser.html" />
+<h1>User Registration</h1>
+<form id="registrationForm" action="register-servlet" method="post">
+    <div class="form-group">
+        <label for="flat">Name:</label>
+        <input type="text" id="name" name="name" required>
+    </div>
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+    </div>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+    <div class="form-group">
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" required>
+    </div>
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+        <label for="flat">Flat Number:</label>
+        <input type="text" id="flat" name="flat" required>
+    </div>
+    <button type="submit" >Register</button>
+</form>
+
+<%
+    String msg = request.getParameter("warning");
+    if(msg!=null){
+%>
+<h2 style="color: red;margin-top: 10px; text-align: center;"><%=msg%></h2>
+<%}%>
 </body>
 </html>
-
-
 <%--
-<form action="register-servlet" method="post">
-
-    <div>
-        <label for="uname">User Name: </label>
-        <input type="text" id="uname" name="uname" placeholder="User Name" required>
-    </div>
-
-    <div>
-        <label for="pass">Password: </label>
-        <input type="password" id="pass" name="pass" placeholder="New Password" required>
-    </div>
-
-    <div>
-        <label for="pass2">Re-Enter Password: </label>
-        <input type="password" id="pass2" name="pass2" placeholder="Re-Enter Password" required
-               onchange="check()" >
-    </div>
-    <p id = "verif"></p>
-    <div>
-        <input type="Submit" value="Register" id="registerBtn" >
-    </div>
-
-    <script>
-        function check(){
-            let first = document.getElementById("pass");
-            let second = document.getElementById("pass2")
-            if (first===second){
-                document.getElementById("registerBtn").classList.add("hidden ");
-            }
-            else{
-                document.getElementById("verif").innerHTML = "Both passwords aren't matching..."
-            }
-        }
-    </script>
-
-</form>--%>
+Follow ups:
+Add password verification and OTP verification field.
+--%>

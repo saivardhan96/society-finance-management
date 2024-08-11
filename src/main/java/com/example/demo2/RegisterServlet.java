@@ -19,40 +19,43 @@ import utility.HibernateUtil;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 @WebServlet(name = "registerServlet", urlPatterns = "/register-servlet")
 public class RegisterServlet extends HttpServlet {
+
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("Get method is called with and arguments are :"+req.getAttributeNames());
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ServletContext sc = getServletContext();
-        Connection con = (Connection) sc.getAttribute("con");
         String un = req.getParameter("username");
         String p = req.getParameter("password");
         String phoneNumber = req.getParameter("phone");
         String email = req.getParameter("email");
         String name = req.getParameter("name");
         String flat = req.getParameter("flat");
-        boolean status = registerHibernate(un,p,phoneNumber,email,flat);
-        if(!status) resp.sendRedirect("adminpage.jsp");
-        else resp.sendRedirect("index.jsp");
-
+        registerHibernate(req,resp,un,p,phoneNumber,email,flat);
     }
 
-    private boolean registerHibernate(String uname, String pass, String phone, String email, String flat){
+    private void registerHibernate(HttpServletRequest req, HttpServletResponse resp, String uname, String pass, String phone, String email, String flat) throws IOException, ServletException {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction tx = null;
-
         try{
             tx = session.beginTransaction();
             Logins l = new Logins();
             l.setPassword(hashPassword(pass));
             l.setUname(uname);
             session.persist(l);
-
             FamilyDetails f = new FamilyDetails();
             f.setLogins(l);
             f.setFlat(flat);
@@ -62,20 +65,23 @@ public class RegisterServlet extends HttpServlet {
             FinanceDetails fin = new FinanceDetails();
             fin.setLogins(l);
             session.persist(fin);
-
             tx.commit();
+            resp.sendRedirect("adminpage.jsp");
         }
         catch (Exception e){
             assert tx != null;
-            if(tx.isActive()) tx.rollback();
+            if(tx.isActive()) {
+                System.out.println("Transaction is active and rolling back");
+                tx.rollback();
+            }
+            resp.sendRedirect("register.jsp?warning="+ URLEncoder.encode("Fill details with caution", StandardCharsets.UTF_8));
+//            resp.sendRedirect("index.jsp"); // will introduce wrong credentials alert later
             System.out.println("Error: "+e.getMessage());
-            return false;
         }
         finally{
             System.out.println("finally");
         }
         session.close();
-        return tx.isActive();
     }
 
     // for encrypting password

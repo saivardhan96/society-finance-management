@@ -1,6 +1,7 @@
 package User;
 
 
+import entity.Logins;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -9,6 +10,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.mindrot.jbcrypt.BCrypt;
+import utility.HibernateUtil;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -61,6 +67,7 @@ public class LoginServlet extends HttpServlet {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sai","root","Kittu@96");
             String un = req.getParameter("username");
             String p = req.getParameter("password");
+            loginHibernate(un,p);
             setContexts(un,con);
             PreparedStatement ps = con.prepareStatement("select password from logins where uname = ?");
             ps.setString(1,un);
@@ -143,4 +150,12 @@ public class LoginServlet extends HttpServlet {
         }};
     }
 
+    private void loginHibernate(String uname, String pass){
+
+    }
+
+    public static boolean checkPassword(String password, String hashed) {
+        // Verify the password using bcrypt
+        return BCrypt.checkpw(password, hashed);
+    }
 }
