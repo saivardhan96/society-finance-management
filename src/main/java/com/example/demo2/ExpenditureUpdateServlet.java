@@ -32,8 +32,7 @@ public class ExpenditureUpdateServlet extends HttpServlet {
             int serviceRs = servicePs.executeUpdate();
             int finRs = con.prepareStatement("update financetrail set reqStatus = concat(reqStatus,'0')").executeUpdate();
             PreparedStatement EUps = con.prepareStatement("insert into history values ('Admin',CURRENT_TIMESTAMP,?,?)");
-            String serviceNo = String.valueOf(services.size());
-            EUps.setString(1,serviceNo);
+            EUps.setString(1,service);
             EUps.setInt(2,amount);
             int EUrs = EUps.executeUpdate();
             if(serviceRs > 0 && EUrs > 0 && finRs > 0) resp.sendRedirect("adminpage.jsp");

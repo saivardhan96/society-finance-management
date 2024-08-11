@@ -14,10 +14,10 @@
 <html>
 <%
     // asking the page not to store cache.
+    if(session.getAttribute("userName")==null) response.sendRedirect("login.jsp");
     response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // for http 1.1
     response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
     response.setDateHeader("Expires", 0); // for proxy servers
-    if(session.getAttribute("userName")==null) response.sendRedirect("login.jsp");
 %>
 
 <head>
@@ -39,14 +39,17 @@
 </div>
 <div class="buttons">
     <button class="neumorphic-button" type="button" onclick="userPayments()"><i class="far fa-credit-card"></i><span>Payment</span></button>
-    <button class="neumorphic-button" type="button"><i class="fas fa-coins"></i><span>Community Expenditures</span></button>
+    <button class="neumorphic-button" type="button" onclick="communityExpenditure()"><i class="fas fa-coins"></i><span>Community Expenditures</span></button>
     <button class="neumorphic-button" type="button"><i class="far fa-file-alt"></i><span>Community Report</span></button>
     <button class="neumorphic-button" type="button" onclick="logout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
 
 </div>
 <script>
     function userPayments(){
-        window.location.href="userPayment.jsp";
+        window.location.href="userPayment.jsp"; // window.location.href triggers GET method by default.
+    }
+    function communityExpenditure(){
+        window.location.href = "/communityExpenditures";
     }
     function logout(){
         window.location.href = "Logout-Servlet";

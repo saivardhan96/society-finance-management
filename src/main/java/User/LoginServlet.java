@@ -30,9 +30,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/plain");
-        resp.getWriter().println("Hey!!");
-        resp.getWriter().println("This is next line");
+        resp.sendRedirect("login.jsp");
     }
 
 
@@ -159,3 +157,9 @@ public class LoginServlet extends HttpServlet {
         return BCrypt.checkpw(password, hashed);
     }
 }
+
+
+/*        resp.setContentType("text/plain");
+        resp.getWriter().println("Hey!!");
+        resp.getWriter().println("This is next line");
+*/

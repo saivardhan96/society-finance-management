@@ -34,7 +34,7 @@ public class AdminPaymentsServlet extends HttpServlet {
         Connection con = (Connection) servletContext.getAttribute("con");
         ArrayList<String> usernames = new ArrayList<>();
         ArrayList<String> amount = new ArrayList<>();
-        // rather than adding at login page, if we add here, it may render new data when we refresh the page...
+//         rather than adding at login page, if we add here, it may render new data when we refresh the page...
 //        ArrayList<ArrayList<String>> details = (ArrayList<ArrayList<String>>) servletContext.getAttribute("requestDetails");
 //        System.out.println("Details: "+details);
         try {
